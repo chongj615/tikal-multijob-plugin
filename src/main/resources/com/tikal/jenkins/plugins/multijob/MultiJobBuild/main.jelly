@@ -83,10 +83,14 @@
                             </j:when>
 						</j:choose>
                     </td>
+			<j:choose>
+                            <j:when test="${it.hasParams(builder)}">
                     	 	<td class="no-wrap" width="10%">
- -					<label class="no-wrap" for="_${index}">parameters</label>
- -						<div><j:out value="${it.getBuildParams(builder)}"/></div>
+ 					<label class="no-wrap" for="_${index}">parameters</label>
+ 						<div><j:out value="${it.getBuildParams(builder)}"/></div>
  				</td>
+                            </j:when>
+			</j:choose>
 	 				<td class="no-wrap" width="10%">
                         <a href="${rootURL}/${builder.url}console">
                             Console Output

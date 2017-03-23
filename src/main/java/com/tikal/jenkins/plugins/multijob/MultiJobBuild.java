@@ -110,6 +110,31 @@ public class MultiJobBuild extends Build<MultiJobProject, MultiJobBuild> {
         }
     }
 
+    public boolean hasParams(SubBuild subBuild) {
+        try {
+            AbstractProject project = (AbstractProject) Jenkins.getInstance()
+                        .getItem(subBuild.getJobName(), this.getParent(), AbstractProject.class);;
+            Run build = project.getBuildByNumber(subBuild.getBuildNumber());
+            ParametersAction action = build.getAction(ParametersAction.class);
+            List<ParameterValue> parameters = action.getParameters();
+            StringBuffer buffer = new StringBuffer();
+            for (ParameterValue parameterValue : parameters) {
+                StringParameterValue stringParameter;
+                try {
+                    stringParameter = ((StringParameterValue) parameterValue);
+                } catch (Exception e) {
+                    continue;
+                }
+                String value = stringParameter.value;
+                String name = stringParameter.getName();
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
     public void addSubBuild(SubBuild subBuild) {
         String key = subBuild.getPhaseName().concat(subBuild.getJobName())
                 .concat(String.valueOf(subBuild.getBuildNumber()));
